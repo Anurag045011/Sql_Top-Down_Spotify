@@ -4,23 +4,23 @@ use spotify;
 -- Create User Table
 CREATE TABLE User (
     UserID INT PRIMARY KEY AUTO_INCREMENT,
-    Username VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Password VARCHAR(255) NOT NULL,
-    SubscriptionType VARCHAR(50),
+    Username VARCHAR(100) NOT NULL,
+    Email VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(50) NOT NULL,
+    SubscriptionType ENUM('Free', 'Basic', 'Premium', 'Family'),
     DateJoined DATETIME NOT NULL
 );
 
 -- Create Genre Table
 CREATE TABLE Genre (
     GenreID INT PRIMARY KEY AUTO_INCREMENT,
-    GenreName VARCHAR(255) NOT NULL
+    GenreName VARCHAR(100) NOT NULL
 );
 
 -- Create Artist Table
 CREATE TABLE Artist (
     ArtistID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(255) NOT NULL,
+    Name VARCHAR(100) NOT NULL,
     GenreID INT,
     Bio TEXT,
     FOREIGN KEY (GenreID) REFERENCES Genre(GenreID) -- Establish relationship with Genre
@@ -31,14 +31,14 @@ CREATE TABLE Album (
     AlbumID INT PRIMARY KEY AUTO_INCREMENT,
     Title VARCHAR(255) NOT NULL,
     ReleaseDate DATE NOT NULL,
-    ArtistID INT,
+    ArtistID MEDIUMINT UNSIGNED,
     FOREIGN KEY (ArtistID) REFERENCES Artist(ArtistID) -- Establish relationship with Artist
 );
 
 -- Create Song Table
 CREATE TABLE Song (
     SongID INT PRIMARY KEY AUTO_INCREMENT,
-    Title VARCHAR(255) NOT NULL,
+    Title VARCHAR(100) NOT NULL,
     Duration INT NOT NULL, -- duration in seconds
     GenreID INT,
     AlbumID INT,
@@ -88,7 +88,7 @@ CREATE TABLE PlaylistSong (
 -- Create SongArtist Table
 CREATE TABLE SongArtist (
     SongID INT,
-    ArtistID INT,
+    ArtistID MEDIUMINT UNSIGNED,
     PRIMARY KEY (SongID, ArtistID),
     FOREIGN KEY (SongID) REFERENCES Song(SongID), -- Establish relationship with Song
     FOREIGN KEY (ArtistID) REFERENCES Artist(ArtistID) -- Establish relationship with Artist
